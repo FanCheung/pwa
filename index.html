@@ -1,0 +1,75 @@
+<!--
+ Copyright 2016 Google Inc.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather PWA</title>
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+
+  <!-- TODO add manifest here -->
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+  <h1>hello</h1>
+  <strong>hi</strong>
+  <script>
+function urlB64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+    const applicationServerPublicKey =
+      'BH3ycCnhSCryIfkGDw73FlNqI5WtJVqaqpREF_apOYV4Y81cegXvv02_KcIeMqlpeKS2i_fCg4WpICfVExf8_NY'
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(function (registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+          const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+          swRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: applicationServerKey
+          })
+          registration.pushManager.getSubscription().then(console.log)
+        }).catch(function (err) {
+
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+
+      Notification.requestPermission(function (result) {
+        console.log(result)
+        // 'denied'
+        if (result == 'granted')
+          return result
+      })
+    }
+  </script>
+  <!-- Uncomment the line below when ready to test with fake data -->
+  <!-- <script src="scripts/app.js" async></script> -->
+
+</body>
+
+</html>
