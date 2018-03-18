@@ -33,21 +33,25 @@
   <h1>hello</h1>
   <strong>hi</strong>
   <script>
-function urlB64ToUint8Array(base64String) {
+    function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
     .replace(/\-/g, '+')
-    .replace(/_/g, '/');
+    .replace(/_/g, '/')
+  ;
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+}
     const applicationServerPublicKey =
-      'BH3ycCnhSCryIfkGDw73FlNqI5WtJVqaqpREF_apOYV4Y81cegXvv02_KcIeMqlpeKS2i_fCg4WpICfVExf8_NY'
+      'BFpXUSQw_dhyZ1TIPYg_VwP0zSY45RvsLrSxxfvwha1eBZnm82UAoBEM8EPIOFuY4jfgKeMjEmkKBDYft9z3_S0'
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/sw.js').then(function (registration) {
           // Registration was successful
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          console.log('ServiceWorker registration successful with scope: ', registration);
 
-          const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-          swRegistration.pushManager.subscribe({
+          const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);
+          registration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: applicationServerKey
           })
@@ -68,7 +72,6 @@ function urlB64ToUint8Array(base64String) {
     }
   </script>
   <!-- Uncomment the line below when ready to test with fake data -->
-  <!-- <script src="scripts/app.js" async></script> -->
 
 </body>
 
