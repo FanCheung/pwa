@@ -72,7 +72,7 @@
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/sw.js').then(function (registration) {
           // Registration was successful
-          console.log('ServiceWorker registration successful with scope: ', registration);
+          console.log('Registration successful with scope: ', registration);
 
           const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);
 

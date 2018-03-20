@@ -77,10 +77,9 @@ self.addEventListener('push', function(event) {
   var title = 'Yay a message.';  
   var icon = '/images/smiley.svg';  
   var tag = 'simple-push-example-tag';
-  var body=event.data.text()
   event.waitUntil(  
     self.registration.showNotification('hihi', {  
-      body: body,  
+      body: 'modifiedy',  
       icon: icon,  
       tag: tag  
     })  

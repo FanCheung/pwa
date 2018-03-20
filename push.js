@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 const vapidKeys = {
   publicKey:
-'BI5oyws4LvhV0Na6GWLQp_RRW6Sw9sjoIYUYdS26OMJOYdHevmVPH59HhkcXxUP5PkBA1lrUz5_SN4nPa4MazY4',
+    'BI5oyws4LvhV0Na6GWLQp_RRW6Sw9sjoIYUYdS26OMJOYdHevmVPH59HhkcXxUP5PkBA1lrUz5_SN4nPa4MazY4',
   privateKey: 'CyE04R9_c3xwo_36kdtQ06TvTR3PYvEj1qKCgFiZRSs'
 };
 
@@ -32,16 +32,23 @@ app.use(function (req, res, next) {
 // })
 
 app.post('/save-subscription', function (req, res) {
-
-  setTimeout(function () {
-    console.log('ahdsfasf')
-    webPush.sendNotification({
+  setTimeout( ()=> {
+    console.log({
       endpoint: req.body.endpoint,
       keys: {
         p256dh: req.body.key,
         auth: req.body.authSecret
       }
     })
+    webPush.sendNotification({
+      endpoint: req.body.endpoint,
+      keys: {
+        p256dh: req.body.keys.p256dh,
+        auth: req.body.keys.auth
+      }
+    },
+       'aksdfjasdfjaf' 
+    )
       .then(function () {
         res.sendStatus(201);
       })
@@ -49,7 +56,7 @@ app.post('/save-subscription', function (req, res) {
         console.log(error);
         res.sendStatus(500);
       });
-  },  4000);
+  }, 10000);
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
