@@ -1,4 +1,4 @@
-const MY_CACHE='cache-v2'
+const MY_CACHE = 'cache-v2'
 const CACHE_LIST = [
   '/',
   '/index.html',
@@ -73,15 +73,22 @@ self.addEventListener('activate', function (e) {
   // return self.clients.claim();
 });
 
-self.addEventListener('push', function(event) {  
-  var title = 'Yay a message.';  
-  var icon = '/images/smiley.svg';  
+self.addEventListener('push', function (event) {
+  var title = 'Yay a message.';
+  var icon = '/images/smiley.svg';
   var tag = 'simple-push-example-tag';
-  event.waitUntil(  
-    self.registration.showNotification('hihi', {  
-      body: 'modifiedy',  
-      icon: icon,  
-      tag: tag  
-    })  
-  );  
+  event.waitUntil(
+    self.registration.showNotification('hihi', {
+      body: 'modifiedy',
+      icon: icon,
+      tag: tag
+    })
+  );
 });
+
+const clearCache = () => {
+  caches.keys().then(function (names) {
+    for (let name of names)
+      caches.delete(name);
+  });
+}
