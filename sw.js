@@ -81,9 +81,37 @@ self.addEventListener('push', function (event) {
     self.registration.showNotification('hihi', {
       body: 'modifiedy',
       icon: icon,
-      tag: tag
+      tag: tag,
+      actions: [
+        { action: 'acq', title: 'Acquisition window' },
+        { action: 'reply', title: 'Reply' }]
     })
   );
+});
+
+self.addEventListener('notificationclick', function (event) {
+  var messageId = event.notification.data;
+
+  event.notification.close();
+
+  if (event.action === 'acq') {
+    clients.openWindow("http://localhost:4200");
+  }
+  else if (event.action === 'reply') {
+    clients.openWindow("https://google.com");
+  }
+}, false);
+self.addEventListener('message', function (event) {
+  console.log(event.source.id)
+  // if (event.source.url.contains('/log')) {
+  // console.log('send from home', event.data)
+  getClients().then((clients) => {
+    clients.forEach(function (client) {
+      if (client.url.indexOf('/log') > -1)
+        client.postMessage(event.data)
+    })
+  })
+  // }
 });
 
 const clearCache = () => {
